@@ -6,12 +6,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func NewLogger() {
+func InitLogger() {
 	log.SetFormatter(&log.TextFormatter{
 		DisableColors: true,
 		FullTimestamp: true,
 	})
 
 	log.SetOutput(os.Stdout)
-	log.SetLevel(log.DebugLevel)
+	log.SetLevel(log.InfoLevel)
 }

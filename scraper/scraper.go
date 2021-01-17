@@ -2,23 +2,28 @@ package scraper
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/gocolly/colly/v2"
 	log "github.com/sirupsen/logrus"
 )
 
-func Scrap(response chan []byte, url string, depth int) {
+func Scrap(response chan string, url string, depth int) {
 	c := colly.NewCollector(
 		colly.MaxDepth(depth),
 	)
 
 	// Find and visit all links
 	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-		e.Request.Visit(e.Attr("href"))
+		match, _ := regexp.MatchString(fmt.Sprintf("^%s", url), e.Attr("href"))
+
+		if match {
+			e.Request.Visit(e.Attr("href"))
+		}
 	})
 
 	c.OnResponse(func(r *colly.Response) {
-		response <- r.Body
+		response <- string(r.Body)
 	})
 
 	c.OnRequest(func(r *colly.Request) {

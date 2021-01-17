@@ -43,14 +43,14 @@ func (aggregator *wordAggregator) GetFrequentWords() []frequentWord {
 }
 
 type frequentWord struct {
-	word      string
-	frequency int
+	Word      string
+	Frequency int
 }
 
 type FrequentWordStore []frequentWord
 
 func (words *FrequentWordStore) Less(i, j int) bool {
-	return (*words)[i].frequency < (*words)[j].frequency
+	return (*words)[i].Frequency < (*words)[j].Frequency
 }
 
 func (words *FrequentWordStore) Swap(i, j int) {
@@ -71,7 +71,7 @@ func (words *FrequentWordStore) Push(v interface{}) {
 }
 
 func (aggregator *wordAggregator) updateFrequentWords(word string, frequency int) {
-	if aggregator.frequentWordsStore.Len() == aggregator.capacity && aggregator.frequentWordsStore[0].frequency > frequency {
+	if aggregator.frequentWordsStore.Len() == aggregator.capacity && aggregator.frequentWordsStore[0].Frequency > frequency {
 		return
 	}
 
@@ -80,8 +80,7 @@ func (aggregator *wordAggregator) updateFrequentWords(word string, frequency int
 	}
 
 	if index, ok := aggregator.getWordIndexInStore(word); ok {
-		aggregator.frequentWordsStore[index].frequency++
-		// heap.Fix(&aggregator.frequentWordsStore, index)
+		aggregator.frequentWordsStore[index].Frequency++
 	} else {
 		log.Debugf("Pushing word %s with frequency %d to word store", word, frequency)
 		fw := frequentWord{word, frequency}
@@ -91,7 +90,7 @@ func (aggregator *wordAggregator) updateFrequentWords(word string, frequency int
 
 func (aggregator *wordAggregator) getWordIndexInStore(word string) (int, bool) {
 	for i, frequentWord := range aggregator.frequentWordsStore {
-		if frequentWord.word == word {
+		if frequentWord.Word == word {
 			return i, true
 		}
 	}

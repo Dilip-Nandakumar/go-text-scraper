@@ -14,8 +14,8 @@ func TestUpdateFrequentWords(t *testing.T) {
 
 	frequentWord := aggregator.frequentWordsStore.Pop().(frequentWord)
 
-	assert.Equal(t, "a", frequentWord.word)
-	assert.Equal(t, 1, frequentWord.frequency)
+	assert.Equal(t, "a", frequentWord.Word)
+	assert.Equal(t, 1, frequentWord.Frequency)
 }
 
 func TestAggregateWords(t *testing.T) {
