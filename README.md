@@ -1,1 +1,1 @@
-# word-highlights-scraper
+# text-scraper

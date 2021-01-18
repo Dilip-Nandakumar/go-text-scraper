@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/Dilip-Nandakumar/word-highlights-scraper/config"
-	"github.com/Dilip-Nandakumar/word-highlights-scraper/scraper"
-	"github.com/Dilip-Nandakumar/word-highlights-scraper/utils"
-	"github.com/Dilip-Nandakumar/word-highlights-scraper/parser"
-	"github.com/Dilip-Nandakumar/word-highlights-scraper/aggregator"
+	"github.com/Dilip-Nandakumar/text-scraper/config"
+	"github.com/Dilip-Nandakumar/text-scraper/scraper"
+	"github.com/Dilip-Nandakumar/text-scraper/utils"
+	"github.com/Dilip-Nandakumar/text-scraper/parser"
+	"github.com/Dilip-Nandakumar/text-scraper/aggregator"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -15,7 +15,7 @@ func main() {
 	config := config.NewConfig()
 	wordAggregator := aggregator.NewWordAggregator(10)
 
-	log.Info("word highlights scraper has started")
+	log.Info("text scraper has started")
 	scrapResponse := make(chan string, 1)
 
 	go func() {
@@ -33,5 +33,5 @@ func main() {
 		log.Infof("word = %s, frequency = %d", frequentWord.Word, frequentWord.Frequency)
 	}
 
-	log.Info("word highlights scraper has completed")
+	log.Info("text scraper has completed")
 }

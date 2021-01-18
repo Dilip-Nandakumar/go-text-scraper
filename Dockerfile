@@ -10,16 +10,16 @@ WORKDIR /build
 COPY . .
 
 # Build the application
-RUN go build -o out/word-highlights-scraper-linux ./
+RUN go build -o out/text-scraper-linux ./
 
 # Build a small image
 FROM golang:alpine
 
-COPY --from=builder /build/out/word-highlights-scraper-linux /word-highlights-scraper
+COPY --from=builder /build/out/text-scraper-linux /text-scraper
 
 # Env variables for command line flags
 ENV url=""
 ENV depth=""
 
 # Command to run
-CMD /word-highlights-scraper -url=$url -depth=$depth
+CMD /text-scraper -url=$url -depth=$depth

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/Dilip-Nandakumar/word-highlights-scraper/utils"
+	"github.com/Dilip-Nandakumar/text-scraper/utils"
 )
 
 func TestUpdateFrequentWords(t *testing.T) {

@@ -1,4 +1,4 @@
-module github.com/Dilip-Nandakumar/word-highlights-scraper
+module github.com/Dilip-Nandakumar/text-scraper
 
 go 1.15
 

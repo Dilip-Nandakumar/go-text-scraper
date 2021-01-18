@@ -1,4 +1,4 @@
-name := word-highlights-scraper
+name := text-scraper
 build_out := out/build
 bin := $(build_out)/$(name)
 linux_bin := $(build_out)/$(name)-linux
@@ -35,5 +35,5 @@ define docker.build_image
 endef
 
 define docker.run
-	docker run -e url=${url} -e depth=${depth} word-highlights-scraper
+	docker run -e url=${url} -e depth=${depth} text-scraper
 endef
