@@ -33,3 +33,7 @@ endef
 define docker.build_image
 	docker build . -t $(name)
 endef
+
+define docker.run
+	docker run -e url=${url} -e depth=${depth} word-highlights-scraper
+endef

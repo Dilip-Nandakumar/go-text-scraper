@@ -17,6 +17,9 @@ fix-fmt:
 
 build: clean check-fmt compile test
 
-build-docker-image:
+build-docker:
 	$(call build.compile_linux)
 	$(call docker.build_image)
+
+run-docker: build-docker
+	$(call docker.run)

@@ -1,7 +1,25 @@
-FROM alpine:latest
+FROM golang:alpine AS builder
 
-ENV name=word-highlights-scraper
+# Set necessary environmet variables needed for our image
+ENV GO111MODULE=on \
+    GOOS=linux
+# Move to working directory /build
+WORKDIR /build
 
-COPY ./out/build/word-highlights-scraper-linux /${name}
+# Copy the code into the container
+COPY . .
 
-CMD [ "/word-highlights-scraper" ]
+# Build the application
+RUN go build -o out/word-highlights-scraper-linux ./
+
+# Build a small image
+FROM golang:alpine
+
+COPY --from=builder /build/out/word-highlights-scraper-linux /word-highlights-scraper
+
+# Env variables for command line flags
+ENV url=""
+ENV depth=""
+
+# Command to run
+CMD /word-highlights-scraper -url=$url -depth=$depth
