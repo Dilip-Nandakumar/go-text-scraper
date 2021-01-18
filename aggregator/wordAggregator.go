@@ -42,6 +42,15 @@ func (aggregator *wordAggregator) GetFrequentWords() []frequentWord {
 	return words
 }
 
+
+func (aggregator *wordAggregator) LogFrequentWords() {
+	frequentWords := aggregator.GetFrequentWords()
+
+	for _, frequentWord := range frequentWords {
+		log.Infof("word = %s, frequency = %d", frequentWord.Word, frequentWord.Frequency)
+	}
+}
+
 type frequentWord struct {
 	Word      string
 	Frequency int

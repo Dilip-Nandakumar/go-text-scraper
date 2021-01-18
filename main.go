@@ -1,6 +1,8 @@
 package main
 
 import (
+	"sync"
+
 	"github.com/Dilip-Nandakumar/text-scraper/config"
 	"github.com/Dilip-Nandakumar/text-scraper/scraper"
 	"github.com/Dilip-Nandakumar/text-scraper/utils"
@@ -14,24 +16,31 @@ func main() {
 	utils.InitLogger()
 	config := config.NewConfig()
 	wordAggregator := aggregator.NewWordAggregator(10)
+	wordPairAggregator := aggregator.NewWordAggregator(10)
 
-	log.Info("text scraper has started")
+	log.Info("Text scraper has started")
 	scrapResponse := make(chan string, 1)
+	var aggWaitGroup sync.WaitGroup
 
 	go func() {
+		aggWaitGroup.Add(1)
+		defer aggWaitGroup.Done()
 		for response := range scrapResponse {
 			log.Debugf("Response received: %s", response)
 			words := parser.GetWords(response)
 			wordAggregator.AggregateWords(words)
+			wordPairs := parser.GetWordPairs(response)
+			wordPairAggregator.AggregateWords(wordPairs)
 		}
 	}()
 
 	scraper.Scrap(scrapResponse, config.URL, config.Depth)
-	frequentWords := wordAggregator.GetFrequentWords()
+	aggWaitGroup.Wait()
 
-	for _, frequentWord := range frequentWords {
-		log.Infof("word = %s, frequency = %d", frequentWord.Word, frequentWord.Frequency)
-	}
+	log.Info("Frequent words:")
+	wordAggregator.LogFrequentWords()
+	log.Info("Frequent word pairs:")
+	wordPairAggregator.LogFrequentWords()
 
-	log.Info("text scraper has completed")
+	log.Info("Text scraper has completed")
 }

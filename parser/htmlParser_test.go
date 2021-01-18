@@ -12,3 +12,10 @@ func TestGetWords(t *testing.T) {
 
 	assert.Equal(t, expectedWords, words)
 }
+
+func TestGetWordPairs(t *testing.T) {
+	words := GetWordPairs("<div>word1 word2   word3<div>")
+	expectedWords := []string{"word1___word2", "word2___word3"}
+
+	assert.Equal(t, expectedWords, words)
+}
